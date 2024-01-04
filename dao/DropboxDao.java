@@ -6,8 +6,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale.Category;
+import dropbox.Dropbox;
 
-public class Dropbox {
+
+public class DropboxDao {
     public int insert(Dropbox dropbox) {
         int result = -1;
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
@@ -61,9 +63,9 @@ public class Dropbox {
                 Statement statement = connection.createStatement();) {
             try (ResultSet resultSet = statement.executeQuery("select * from dropbox");) {
                 while (resultSet.next()) {
-                    Dropbox dropbox = new dropbox();
+                    Dropbox dropbox = new Dropbox();
                     dropbox.setId(resultSet.getString("id"));
-                    dropbox.setNama(resultSet.getString("nama"));
+                    dropbox.setLocation(resultSet.getString("nama"));
                     dropbox.setPoint(resultSet.getString("point"));
                     list.add(dropbox);
                 }
