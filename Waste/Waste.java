@@ -1,38 +1,36 @@
 package Waste;
-
+import Category.Categories;
+import dropbox.Dropbox;
+ 
 public class Waste {
     // Deklarasi variabel-variabel yang akan menyimpan data biodata
     private String type;
-    private String dropbox;
-    private String category;
+    private Dropbox  dropbox;
+    private Categories category;
 
     // Setter untuk mengatur nilai variabel id
     public void setType(String type) {
         this.type = type;
     }
 
-    // Setter untuk mengatur nilai variabel nama
-    public void setDropbox(String dropbox) {
-        this.dropbox = dropbox;
-    }
-
-    // Setter untuk mengatur nilai variabel Point
-    public void setCategory(String category) {
+    public void setCategory(Categories category) {
         this.category = category;
     }
-
+    
+    public void setDropbox(Dropbox dropbox) {
+        this.dropbox = dropbox;
+    }
+  
     // Getter untuk mendapatkan nilai variabel id
     public String getType() {
         return type;
     }
-
-    // Getter untuk mendapatkan nilai variabel nama
-    public String getDropbox() {
-        return dropbox;
+     
+    public Categories getCategory() {
+        return category;
     }
 
-    // Getter untuk mendapatkan nilai variabel Point
-    public String getCategory() {
-        return category;
+    public Dropbox getDropbox() {
+        return dropbox;
     }
 }
