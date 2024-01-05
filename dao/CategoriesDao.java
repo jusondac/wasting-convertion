@@ -58,7 +58,7 @@ public class CategoriesDao {
         return result;
     }
 
-    public List<Categories> findAll() {
+    public static List<Categories> findAll() {
         List<Categories> list = new ArrayList<>();
         try (Connection connection = MySqlConnection.getInstance().getConnection();
                 Statement statement = connection.createStatement();) {
