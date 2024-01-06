@@ -5,9 +5,8 @@ import db.MySqlConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
+import dropbox.Dropbox;
 
-import Dropbox.Dropbox;
 
 
 public class DropboxDao {
@@ -66,7 +65,7 @@ public class DropboxDao {
                 while (resultSet.next()) {
                     Dropbox dropbox = new Dropbox();
                     dropbox.setId(resultSet.getString("id"));
-                    dropbox.setLocation(resultSet.getString("nama"));
+                    dropbox.setLocation(resultSet.getString("location"));
                     dropbox.setPoint(resultSet.getString("point"));
                     list.add(dropbox);
                 }

@@ -3,7 +3,6 @@ package dao;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale.Category;
 import Category.Categories;
 import db.MySqlConnection;
 
@@ -65,7 +64,7 @@ public class CategoriesDao {
                 while (resultSet.next()) {
                     Categories categories = new Categories();
                     categories.setId(resultSet.getString("id"));
-                    categories.setNama(resultSet.getString("name"));
+                    categories.setNama(resultSet.getString("nama"));
                     categories.setPoint(resultSet.getString("point"));
                     list.add(categories);
                 }
