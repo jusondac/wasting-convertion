@@ -6,7 +6,6 @@ import java.util.List;
 
 import Waste.Waste;
 import db.MySqlConnection;
-import dropbox.Dropbox;
 
 public class WasteDao {
     public int insert(Waste waste) {
