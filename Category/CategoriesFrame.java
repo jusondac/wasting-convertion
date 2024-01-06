@@ -63,13 +63,13 @@ public class CategoriesFrame extends JFrame{
         textnama = new JTextField();textnama.setBounds(15,60,300,30);
         textpoint = new JTextField();textpoint.setBounds(15,120,300,30);
 
-        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,310,100,40);
-        buttonedit = new JButton("Edit");buttonedit.setBounds(115,310,80,40);
-        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,310,80,40);
+        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,155,100,40);
+        buttonedit = new JButton("Edit");buttonedit.setBounds(115,155,100,40);
+        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(215,155,100,40);
 
         this.table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
-        scrollableTable.setBounds(15,360,300,200);
+        scrollableTable.setBounds(15,200,300,200);
         tableModel = new CategoriesTableModel(categoriesList);
         table.setModel(tableModel);
 
@@ -93,7 +93,7 @@ public class CategoriesFrame extends JFrame{
         this.add(scrollableTable);
 
         // Mengatur ukuran dan layout frame
-        this.setSize(330,650);
+        this.setSize(350,500);
         this.setLayout(null);
     }
     
@@ -147,5 +147,89 @@ public class CategoriesFrame extends JFrame{
     // Metode untuk mengupdate data biodata pada tabel
     public void updateCategories(Categories update, int selected) {
         this.tableModel.update(update, selected);
+    }
+
+    public CategoriesDao getCategoriesDao() {
+        return categoriesDao;
+    }
+
+    public void setCategoriesDao(CategoriesDao categoriesDao) {
+        this.categoriesDao = categoriesDao;
+    }
+
+    public CategoriesTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public void setTableModel(CategoriesTableModel tableModel) {
+        this.tableModel = tableModel;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public List<Categories> getCategoriesList() {
+        return categoriesList;
+    }
+
+    public void setCategoriesList(List<Categories> categoriesList) {
+        this.categoriesList = categoriesList;
+    }
+
+    public JLabel getLabelnama() {
+        return labelnama;
+    }
+
+    public void setLabelnama(JLabel labelnama) {
+        this.labelnama = labelnama;
+    }
+
+    public JLabel getLabelpoint() {
+        return labelpoint;
+    }
+
+    public void setLabelpoint(JLabel labelpoint) {
+        this.labelpoint = labelpoint;
+    }
+
+    public JTextField getTextnama() {
+        return textnama;
+    }
+
+    public void setTextnama(JTextField textnama) {
+        this.textnama = textnama;
+    }
+
+    public JTextField getTextpoint() {
+        return textpoint;
+    }
+
+    public void setTextpoint(JTextField textpoint) {
+        this.textpoint = textpoint;
+    }
+
+    public JButton getButtonsimpan() {
+        return buttonsimpan;
+    }
+
+    public void setButtonsimpan(JButton buttonsimpan) {
+        this.buttonsimpan = buttonsimpan;
+    }
+
+    public JButton getButtonhapus() {
+        return buttonhapus;
+    }
+
+    public void setButtonhapus(JButton buttonhapus) {
+        this.buttonhapus = buttonhapus;
+    }
+
+    public JButton getButtonedit() {
+        return buttonedit;
+    }
+
+    public void setButtonedit(JButton buttonedit) {
+        this.buttonedit = buttonedit;
     }
 }
