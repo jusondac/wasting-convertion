@@ -1,7 +1,8 @@
 package Waste;
 
-import java.lang.reflect.Waste;
 import java.util.List;
+
+import Category.Categories;
 
 public class WasteTableModel {
 
@@ -26,14 +27,14 @@ public class WasteTableModel {
 
     public Object getValueAt(int row, int col) {
         Waste rowItem = data.get(row);
-        String value = "";
+        Categories value = "";
 
         switch (col) {
             case 0:
-                value = rowItem.getNama();
+                value = rowItem.getCategory();
                 break;
             case 1:
-                value = rowItem.getJenisWaste().getNama();
+                value = rowItem.getJenisWaste().getDropbox();
                 break;
         }
         return value;
@@ -57,9 +58,10 @@ public class WasteTableModel {
     public void remove(int rowIndex) {
         if (rowIndex >= 0 && rowIndex < data.size()) {
             data.remove(rowIndex);
-            fireTableRowsDeleted(rowIndex, rowIndex); // Wastei tahu JTable bahwa baris telah dihapus
+            fireTableRowsDeleted(rowIndex, rowIndex); // Wastes tahu JTable bahwa baris telah dihapus
         } else {
             throw new IndexOutOfBoundsException("Index tidak valid");
         }
     }
+
 }
