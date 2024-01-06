@@ -44,7 +44,7 @@ public class DropboxButtonEditActionListener implements ActionListener {
             Dropbox updateDropbox = new Dropbox();
             Dropbox dropbox = dropboxList.get(selected);
             updateDropbox.setId(dropbox.getId());
-            updateDropbox.setLocation(this.dropboxFrame.getLocation());
+            updateDropbox.setLocation(this.dropboxFrame.getlocation());
             updateDropbox.setPoint(this.dropboxFrame.getPoint());
             
             // Melakukan update data menggunakan DropboxDao

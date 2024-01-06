@@ -24,7 +24,7 @@ public class DropboxButtonSimpanActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Mengambil nilai dari form biodata
-        String location = this.DropboxFrame.getLocation();
+        String location = this.DropboxFrame.getlocation();
         String point = this.DropboxFrame.getPoint();
         
         // Memeriksa apakah location kosong
