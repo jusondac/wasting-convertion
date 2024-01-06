@@ -115,7 +115,7 @@ public class DropboxFrame extends JFrame {
     }
 
     // Metode getter untuk mendapatkan nilai location dari form
-    public String getLocation() { return textlocation.getText(); }
+    public String getlocation() { return textlocation.getText(); }
     
     // Metode getter untuk mendapatkan nilai Alamat dari form
     public String getPoint() { return textpoint.getText(); }
