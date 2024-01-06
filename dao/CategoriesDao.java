@@ -29,8 +29,7 @@ public class CategoriesDao {
     public int update(Categories categories) {
         int result = -1;
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
-            PreparedStatement statement = connection
-                    .prepareStatement("Update into categories (name=?,point=?) where id=?");
+            PreparedStatement statement = connection.prepareStatement("Update categories set name=?, point=? where id=?");
             statement.setString(1, categories.getNama());
             statement.setString(2, categories.getId());
             statement.setString(3, categories.getPoint());
