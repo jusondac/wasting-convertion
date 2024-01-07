@@ -135,4 +135,88 @@ public class CategoriesFrame extends JFrame{
     public void updateCategories(Categories update, int selected) {
         this.tableModel.update(update, selected);
     }
+
+    public CategoriesDao getCategoriesDao() {
+        return categoriesDao;
+    }
+
+    public void setCategoriesDao(CategoriesDao categoriesDao) {
+        this.categoriesDao = categoriesDao;
+    }
+
+    public CategoriesTableModel getTableModel() {
+        return tableModel;
+    }
+
+    public void setTableModel(CategoriesTableModel tableModel) {
+        this.tableModel = tableModel;
+    }
+
+    public void setTable(JTable table) {
+        this.table = table;
+    }
+
+    public List<Categories> getCategoriesList() {
+        return categoriesList;
+    }
+
+    public void setCategoriesList(List<Categories> categoriesList) {
+        this.categoriesList = categoriesList;
+    }
+
+    public JLabel getLabelnama() {
+        return labelnama;
+    }
+
+    public void setLabelnama(JLabel labelnama) {
+        this.labelnama = labelnama;
+    }
+
+    public JLabel getLabelpoint() {
+        return labelpoint;
+    }
+
+    public void setLabelpoint(JLabel labelpoint) {
+        this.labelpoint = labelpoint;
+    }
+
+    public JTextField getTextnama() {
+        return textnama;
+    }
+
+    public void setTextnama(JTextField textnama) {
+        this.textnama = textnama;
+    }
+
+    public JTextField getTextpoint() {
+        return textpoint;
+    }
+
+    public void setTextpoint(JTextField textpoint) {
+        this.textpoint = textpoint;
+    }
+
+    public JButton getButtonsimpan() {
+        return buttonsimpan;
+    }
+
+    public void setButtonsimpan(JButton buttonsimpan) {
+        this.buttonsimpan = buttonsimpan;
+    }
+
+    public JButton getButtonhapus() {
+        return buttonhapus;
+    }
+
+    public void setButtonhapus(JButton buttonhapus) {
+        this.buttonhapus = buttonhapus;
+    }
+
+    public JButton getButtonedit() {
+        return buttonedit;
+    }
+
+    public void setButtonedit(JButton buttonedit) {
+        this.buttonedit = buttonedit;
+    }
 }

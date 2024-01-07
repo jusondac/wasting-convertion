@@ -3,6 +3,8 @@ package Waste;
 import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
+import Category.Categories;
+
 public class WasteTableModel extends AbstractTableModel {
 
     private String[] columnNames = { "id","Location", "Jenis Waste" };
@@ -26,17 +28,19 @@ public class WasteTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int col) {
         Waste rowItem = data.get(row);
-        String value = "";
+        Categories value = "";
 
         switch (col) {
             case 0:
                 value = rowItem.getId();
+                value = rowItem.getCategory();
                 break;
             case 1:
                 value = rowItem.getDropbox().getLocation();
                 break;
             case 2:
                 value = rowItem.getCategory().getNama();
+                value = rowItem.getJenisWaste().getDropbox();
                 break;
         }
         return value;
@@ -60,9 +64,10 @@ public class WasteTableModel extends AbstractTableModel {
     public void remove(int rowIndex) {
         if (rowIndex >= 0 && rowIndex < data.size()) {
             data.remove(rowIndex);
-            fireTableRowsDeleted(rowIndex, rowIndex); // Wastei tahu JTable bahwa baris telah dihapus
+            fireTableRowsDeleted(rowIndex, rowIndex); // Wastes tahu JTable bahwa baris telah dihapus
         } else {
             throw new IndexOutOfBoundsException("Index tidak valid");
         }
     }
+
 }

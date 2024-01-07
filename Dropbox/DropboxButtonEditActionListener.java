@@ -19,7 +19,8 @@ public class DropboxButtonEditActionListener implements ActionListener {
     private DropboxDao dropboxDao;
 
     // Konstruktor kelas DropboxButtonEditActionListener
-    public DropboxButtonEditActionListener(DropboxFrame dropboxFrame, DropboxDao dropboxDao, List<Dropbox> dropboxList) {
+    public DropboxButtonEditActionListener(DropboxFrame dropboxFrame, DropboxDao dropboxDao,
+            List<Dropbox> dropboxList) {
         this.dropboxDao = dropboxDao;
         this.dropboxFrame = dropboxFrame;
         this.dropboxList = dropboxList;
@@ -35,7 +36,8 @@ public class DropboxButtonEditActionListener implements ActionListener {
         String location = (String) table.getValueAt(selected, 0);
         String point = (String) table.getValueAt(selected, 1);
 
-        // Jika ada isian kosong pada form, mengisi form dengan data Dropbox yang dipilih
+        // Jika ada isian kosong pada form, mengisi form dengan data Dropbox yang
+        // dipilih
         if (this.dropboxFrame.isEmptyField()) {
             this.dropboxFrame.setTextlocation(location);
 

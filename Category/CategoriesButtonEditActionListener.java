@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 // import Category.CategoriesFrame;
 import dao.CategoriesDao;
+import Category.CategoriesFrame;
 
 public class CategoriesButtonEditActionListener implements ActionListener  {
     
