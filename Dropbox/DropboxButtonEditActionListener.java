@@ -38,14 +38,13 @@ public class DropboxButtonEditActionListener implements ActionListener {
         // Jika ada isian kosong pada form, mengisi form dengan data Dropbox yang dipilih
         if (this.dropboxFrame.isEmptyField()) {
             this.dropboxFrame.setTextlocation(location);
-            this.dropboxFrame.setTextpoint(point);
+
         } else {
             // Jika form tidak kosong, membuat objek Dropbox baru untuk diupdate
             Dropbox updateDropbox = new Dropbox();
             Dropbox dropbox = dropboxList.get(selected);
             updateDropbox.setId(dropbox.getId());
             updateDropbox.setLocation(this.dropboxFrame.getDropboxLocation());
-            updateDropbox.setPoint(this.dropboxFrame.getPoint());
 
             // Melakukan update data menggunakan DropboxDao
             this.dropboxDao.update(updateDropbox);
@@ -53,7 +52,6 @@ public class DropboxButtonEditActionListener implements ActionListener {
             // Mengupdate data pada tabel dan membersihkan isian form
             this.dropboxFrame.updateDropbox(updateDropbox, selected);
             this.dropboxFrame.setTextlocation("");
-            this.dropboxFrame.setTextpoint("");
         }
     }
 

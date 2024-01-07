@@ -30,14 +30,13 @@ public class DropboxFrame extends JFrame {
     private DropboxTableModel tableModel;
     private JTable table;
     private List<Dropbox> DropboxList;
-    private JLabel labellocation, labelpoint;
-    private JTextField textlocation, textpoint;
-    private JButton buttonsimpan, buttonhapus, buttonedit;
+    private JLabel labellocation;
+    private JTextField textlocation;
+    private JButton buttonsimpan, buttonhapus, buttonedit, buttonkonversi;
 
     // Konstruktor kelas BiodataFrame
     public DropboxFrame(DropboxDao dropboxDao) {
         JFrame jframe = this;
-
 
         // Mengambil data biodata dari database dan menampilkannya pada konsol
         this.DropboxList = DropboxDao.findAll();
@@ -54,8 +53,9 @@ public class DropboxFrame extends JFrame {
         textlocation = new JTextField();textlocation.setBounds(15,60,300,30);
 
         buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,100,100,40);
-        buttonedit = new JButton("Edit");buttonedit.setBounds(115,100,80,40);
-        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,100,80,40);
+        buttonedit = new JButton("Edit");buttonedit.setBounds(115,100,100,40);
+        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,100,100,40);
+        buttonkonversi = new JButton("Konversi Poin Dropbox");buttonkonversi.setBounds(15,360,300,40);
 
         this.table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
@@ -67,10 +67,12 @@ public class DropboxFrame extends JFrame {
         DropboxButtonSimpanActionListener actionListenerSimpan = new DropboxButtonSimpanActionListener(this, DropboxDao);
         DropboxButtonHapusActionListener actionListenerHapus = new DropboxButtonHapusActionListener(this, DropboxDao);
         DropboxButtonEditActionListener actionListenerEdit = new DropboxButtonEditActionListener(this, DropboxDao,  this.DropboxList);
+        DropboxButtonKonversiActionListener actionListenerKonversi = new DropboxButtonKonversiActionListener(this, dropboxDao);
 
         buttonsimpan.addActionListener(actionListenerSimpan);
         buttonhapus.addActionListener(actionListenerHapus);
         buttonedit.addActionListener(actionListenerEdit);
+        buttonkonversi.addActionListener(actionListenerKonversi);
 
         // Menambahkan komponen GUI ke frame
         this.add(labellocation);
@@ -78,6 +80,7 @@ public class DropboxFrame extends JFrame {
         this.add(buttonsimpan);
         this.add(buttonedit);
         this.add(buttonhapus);
+        this.add(buttonkonversi);
         this.add(scrollableTable);
 
         // Mengatur ukuran dan layout frame
@@ -104,14 +107,8 @@ public class DropboxFrame extends JFrame {
     // Metode getter untuk mendapatkan nilai location dari form
     public String getDropboxLocation() { return textlocation.getText(); }
 
-    // Metode getter untuk mendapatkan nilai Alamat dari form
-    public String getPoint() { return textpoint.getText(); }
-
     // Metode setter untuk mengatur nilai location pada form
     public void setTextlocation(String textlocation) { this.textlocation.setText(textlocation); }
-
-    // Metode setter untuk mengatur nilai Nomor Telepon pada form
-    public void setTextpoint(String textpoint) { this.textpoint.setText(textpoint); }
 
     // Metode untuk menghapus data pada tabel
     public void removeData(int selected) {
@@ -131,7 +128,7 @@ public class DropboxFrame extends JFrame {
 
     // Metode untuk memeriksa apakah form kosong
     public boolean isEmptyField() {
-        return (Objects.equals(this.textlocation.getText(), "")) && Objects.equals(this.textpoint.getText(), "");
+        return (Objects.equals(this.textlocation.getText(), ""));
     }
 
     // Metode untuk mengupdate data biodata pada tabel

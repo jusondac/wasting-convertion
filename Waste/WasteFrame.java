@@ -64,10 +64,10 @@ public class WasteFrame extends JFrame {
 
         WasteButtonSimpanActionListener actionListener = new WasteButtonSimpanActionListener(this, wasteDao);
         WasteButtonHapusActionListener actionListenerHapus = new WasteButtonHapusActionListener(this, wasteDao);
-//        WasteButtonEditActionListener actionListenerEdit = new WasteButtonEditActionListener(this, wasteDao,  this.wasteList);
+
         button.addActionListener(actionListener);
         buttonHapus.addActionListener(actionListenerHapus);
-//        buttonEdit.addActionListener(actionListenerEdit);
+
 
         this.add(button);
         this.add(buttonHapus);

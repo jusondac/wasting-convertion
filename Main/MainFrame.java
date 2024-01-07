@@ -38,7 +38,6 @@ public class MainFrame extends JFrame {
                 else if (result == JOptionPane.NO_OPTION) jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
             }
         });
-//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
 
         this.categoriesDao = new CategoriesDao();
