@@ -28,19 +28,17 @@ public class WasteTableModel extends AbstractTableModel {
 
     public Object getValueAt(int row, int col) {
         Waste rowItem = data.get(row);
-        Categories value = "";
+        String value = "";
 
         switch (col) {
             case 0:
                 value = rowItem.getId();
-                value = rowItem.getCategory();
                 break;
             case 1:
                 value = rowItem.getDropbox().getLocation();
                 break;
             case 2:
                 value = rowItem.getCategory().getNama();
-                value = rowItem.getJenisWaste().getDropbox();
                 break;
         }
         return value;
