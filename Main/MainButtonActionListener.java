@@ -16,7 +16,9 @@ public class MainButtonActionListener implements ActionListener {
             mainFrame.showCategoryFrame();
         } else if (e.getSource() == mainFrame.getButtonDropbox()) {
             mainFrame.showDropboxFrame();
-        } else {
+        } else if (e.getSource() == mainFrame.getButtonPrint()) {
+            mainFrame.showReportFrame();
+        } else if (e.getSource() == mainFrame.getButtonWaste()){
             mainFrame.showWasteFrame();
         }
     }
