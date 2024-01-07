@@ -1,21 +1,19 @@
 package Waste;
 
-import java.lang.reflect.Member;
+import dao.WasteDao;
 import java.util.List;
 import java.awt.event.*;
-
-import javax.swing.JTable;
-
+import javax.swing.*;
 /**
  * WasteButtonHapusActionListener
  */
 public class WasteButtonHapusActionListener implements ActionListener{
 
     private WasteFrame wasteFrame;
-    private WasteFrame wasteDao;
+    private WasteDao wasteDao;
     private List<Waste> data;
 
-    public WasteButtonHapusActionListener(WasteFrame wasteFrame, WasteFrame wasteDao) {
+    public WasteButtonHapusActionListener(WasteFrame wasteFrame, WasteDao wasteDao) {
         this.wasteFrame = wasteFrame;
         this.wasteDao = wasteDao;
     }
@@ -24,9 +22,8 @@ public class WasteButtonHapusActionListener implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         JTable table = this.wasteFrame.getTable();
         int selected = table.getSelectedRow();
-        String category = (String) table.getValueAt(selected, 0);
-        Waste waste = this.wasteDao.findByCategory(category);
+        String id = (String) table.getValueAt(selected, 0);
         this.wasteFrame.removeData(selected);
-        this.wasteDao.delete(waste);
+        this.wasteDao.delete(id);
     }
 }

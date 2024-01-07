@@ -10,23 +10,18 @@ public class Dropbox {
    public void setId(String id) {
        this.id = id;
    }
-
    public void setLocation(String location) {
        this.location = location;
    }
-   
    public void setPoint(String point) {
        this.point = point;
    }
-
    public String getId() {
        return id;
    }
-
    public String getLocation() {
        return location;
    }
-
    public String getPoint() {
        return point;
    }

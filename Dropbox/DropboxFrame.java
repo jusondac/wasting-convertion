@@ -2,7 +2,6 @@ package Dropbox;
 
 import java.util.List;
 import java.util.Objects;
-import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JButton;
@@ -19,7 +18,10 @@ import Dropbox.DropboxFrame;
 import Dropbox.DropboxTableModel;
 import Dropbox.Dropbox;
 import Dropbox.DropboxButtonEditActionListener;
+import Waste.WasteFrame;
+import dao.CategoriesDao;
 import dao.DropboxDao;
+import dao.WasteDao;
 
 public class DropboxFrame extends JFrame {
 
@@ -28,52 +30,36 @@ public class DropboxFrame extends JFrame {
     private DropboxTableModel tableModel;
     private JTable table;
     private List<Dropbox> DropboxList;
-    private JLabel labellocation, labelpoint;
-    private JTextField textlocation, textpoint;
-    private JButton buttonsimpan, buttonhapus, buttonedit;
+    private JLabel labellocation;
+    private JTextField textlocation;
+    private JButton buttonsimpan, buttonhapus, buttonedit, buttonkonversi;
 
     // Konstruktor kelas BiodataFrame
-    public DropboxFrame() {
+    public DropboxFrame(DropboxDao dropboxDao) {
         JFrame jframe = this;
-        
-        // Menambahkan window listener untuk menangani event saat jendela ditutup
-        this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                int result = JOptionPane.showConfirmDialog(jframe, "Do you want to Exit ?", "Exit Confirmation : ", JOptionPane.YES_NO_OPTION);
-                if (result == JOptionPane.YES_OPTION) jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                else if (result == JOptionPane.NO_OPTION) jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            }
-        });
-        
+
         // Mengambil data biodata dari database dan menampilkannya pada konsol
         this.DropboxList = DropboxDao.findAll();
         for (Dropbox Dropbox: this.DropboxList) {
             System.out.println(Dropbox.getLocation() +" "+Dropbox.getPoint());
         }
-        
+
         // Menginisialisasi objek BiodataDao
         this.DropboxDao = new DropboxDao();
 
         // Menginisialisasi komponen GUI
-        // comboJenis = new JComboBox();
-        // comboJenis.setBounds(15, 180,300, 30);
-        // comboJenis.addItem("Laki-laki");
-        // comboJenis.addItem("Perempuan");
 
         labellocation = new JLabel("location :");labellocation.setBounds(15,40,350,15);
-        labelpoint = new JLabel("Point :");labelpoint.setBounds(15,100,350,15);
-
-
         textlocation = new JTextField();textlocation.setBounds(15,60,300,30);
-        textpoint = new JTextField();textpoint.setBounds(15,120,300,30);
 
-        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,310,100,40);
-        buttonedit = new JButton("Edit");buttonedit.setBounds(115,310,80,40);
-        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,310,80,40);
+        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,100,100,40);
+        buttonedit = new JButton("Edit");buttonedit.setBounds(115,100,100,40);
+        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,100,100,40);
+        buttonkonversi = new JButton("Konversi Poin Dropbox");buttonkonversi.setBounds(15,360,300,40);
 
         this.table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
-        scrollableTable.setBounds(15,360,300,200);
+        scrollableTable.setBounds(15,150,300,200);
         tableModel = new DropboxTableModel(DropboxList);
         table.setModel(tableModel);
 
@@ -81,31 +67,35 @@ public class DropboxFrame extends JFrame {
         DropboxButtonSimpanActionListener actionListenerSimpan = new DropboxButtonSimpanActionListener(this, DropboxDao);
         DropboxButtonHapusActionListener actionListenerHapus = new DropboxButtonHapusActionListener(this, DropboxDao);
         DropboxButtonEditActionListener actionListenerEdit = new DropboxButtonEditActionListener(this, DropboxDao,  this.DropboxList);
+        DropboxButtonKonversiActionListener actionListenerKonversi = new DropboxButtonKonversiActionListener(this, dropboxDao);
 
         buttonsimpan.addActionListener(actionListenerSimpan);
         buttonhapus.addActionListener(actionListenerHapus);
         buttonedit.addActionListener(actionListenerEdit);
+        buttonkonversi.addActionListener(actionListenerKonversi);
 
         // Menambahkan komponen GUI ke frame
         this.add(labellocation);
-        this.add(labelpoint);
         this.add(textlocation);
-        this.add(textpoint);
         this.add(buttonsimpan);
         this.add(buttonedit);
         this.add(buttonhapus);
+        this.add(buttonkonversi);
         this.add(scrollableTable);
 
         // Mengatur ukuran dan layout frame
-        this.setSize(330,650);
+        this.setSize(330,450);
         this.setLayout(null);
     }
-    
+
     // Metode utama untuk menjalankan aplikasi
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() { new DropboxFrame().setVisible(true); }
+            DropboxDao dropboxDao = new DropboxDao();
+            public void run() {
+                DropboxFrame runnable = new DropboxFrame(dropboxDao);
+                runnable.setVisible(true);
+            }
         });
     }
 
@@ -115,16 +105,10 @@ public class DropboxFrame extends JFrame {
     }
 
     // Metode getter untuk mendapatkan nilai location dari form
-    public String getlocation() { return textlocation.getText(); }
-    
-    // Metode getter untuk mendapatkan nilai Alamat dari form
-    public String getPoint() { return textpoint.getText(); }
+    public String getDropboxLocation() { return textlocation.getText(); }
 
     // Metode setter untuk mengatur nilai location pada form
     public void setTextlocation(String textlocation) { this.textlocation.setText(textlocation); }
-    
-    // Metode setter untuk mengatur nilai Nomor Telepon pada form
-    public void setTextpoint(String textpoint) { this.textpoint.setText(textpoint); }
 
     // Metode untuk menghapus data pada tabel
     public void removeData(int selected) {
@@ -135,7 +119,6 @@ public class DropboxFrame extends JFrame {
     public void addDropbox(Dropbox Dropbox) {
         tableModel.add(Dropbox);
         textlocation.setText("");
-        textpoint.setText("");
     }
 
     // Metode untuk menampilkan pesan pop-up
@@ -145,7 +128,7 @@ public class DropboxFrame extends JFrame {
 
     // Metode untuk memeriksa apakah form kosong
     public boolean isEmptyField() {
-        return (Objects.equals(this.textlocation.getText(), "")) && Objects.equals(this.textpoint.getText(), "");
+        return (Objects.equals(this.textlocation.getText(), ""));
     }
 
     // Metode untuk mengupdate data biodata pada tabel

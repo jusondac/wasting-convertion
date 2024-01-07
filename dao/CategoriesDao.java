@@ -29,10 +29,11 @@ public class CategoriesDao {
     public int update(Categories categories) {
         int result = -1;
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
-            PreparedStatement statement = connection.prepareStatement("Update categories set name=?, point=? where id=?");
+            PreparedStatement statement = connection
+                    .prepareStatement("Update categories set name = ?, point = ? where id = ?");
             statement.setString(1, categories.getNama());
-            statement.setString(2, categories.getId());
-            statement.setString(3, categories.getPoint());
+            statement.setString(2, categories.getPoint());
+            statement.setString(3, categories.getId());
 
             result = statement.executeUpdate();
         } catch (SQLException e) {
@@ -46,9 +47,6 @@ public class CategoriesDao {
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
             PreparedStatement statement = connection.prepareStatement("delete from categories where id=?");
             statement.setString(1, categories.getId());
-            statement.setString(2, categories.getNama());
-            statement.setString(3, categories.getPoint());
-
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -75,5 +73,29 @@ public class CategoriesDao {
             e.printStackTrace();
         }
         return list;
+    }
+
+    public Categories findByName(String nama) {
+        Categories categories = null;
+        try {
+            ResultSet resultSet = getResultSetNama(nama);
+            while (resultSet.next()) {
+                categories = new Categories();
+                categories.setId(resultSet.getString("id"));
+                categories.setNama(resultSet.getString("name"));
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return categories;
+    }
+
+    private static ResultSet getResultSetNama(String nama) throws SQLException {
+        Connection connection = MySqlConnection.getInstance().getConnection();
+        String query = "select * from categories where name = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nama);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
     }
 }

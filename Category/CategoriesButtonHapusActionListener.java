@@ -30,10 +30,10 @@ public class CategoriesButtonHapusActionListener implements ActionListener {
         String nama = (String) table.getValueAt(selected, 0);
         
         // Mencari biodata berdasarkan nama
-        // Categories categories = this.categoriesDao.findByName(nama);
+        Categories categories = this.categoriesDao.findByName(nama);
         
         // Menghapus data pada tabel dan database
         this.categoriesFrame.removeData(selected);
-        // this.categoriesDao.delete(categories);
+        this.categoriesDao.delete(categories);
     }
 }

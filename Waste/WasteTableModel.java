@@ -1,12 +1,13 @@
 package Waste;
 
+import javax.swing.table.AbstractTableModel;
 import java.util.List;
 
 import Category.Categories;
 
-public class WasteTableModel {
+public class WasteTableModel extends AbstractTableModel {
 
-    private String[] columnNames = { "Nama", "Jenis Waste" };
+    private String[] columnNames = { "id","Location", "Jenis Waste" };
     private List<Waste> data;
 
     public WasteTableModel(List<Waste> data) {
@@ -31,9 +32,14 @@ public class WasteTableModel {
 
         switch (col) {
             case 0:
+                value = rowItem.getId();
                 value = rowItem.getCategory();
                 break;
             case 1:
+                value = rowItem.getDropbox().getLocation();
+                break;
+            case 2:
+                value = rowItem.getCategory().getNama();
                 value = rowItem.getJenisWaste().getDropbox();
                 break;
         }
