@@ -18,7 +18,7 @@ public class DropboxDao {
                     .prepareStatement("Insert into dropbox (id,location,point) values (?,?,?)");
             statement.setString(1, dropbox.getId());
             statement.setString(2, dropbox.getLocation());
-            statement.setString(3, dropbox.getPoint());
+            statement.setString(3, "0");
 
             result = statement.executeUpdate();
         } catch (SQLException e) {
@@ -27,14 +27,35 @@ public class DropboxDao {
         return result;
     }
 
+    public static List<Dropbox> findAll() {
+        List<Dropbox> list = new ArrayList<>();
+        try (Connection connection = MySqlConnection.getInstance().getConnection();
+             Statement statement = connection.createStatement();) {
+            try (ResultSet resultSet = statement.executeQuery("select * from dropbox");) {
+                while (resultSet.next()) {
+                    Dropbox dropbox = new Dropbox();
+                    dropbox.setId(resultSet.getString("id"));
+                    dropbox.setLocation(resultSet.getString("location"));
+                    dropbox.setPoint(resultSet.getString("point"));
+                    list.add(dropbox);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public int update(Dropbox dropbox) {
         int result = -1;
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
             PreparedStatement statement = connection
-                    .prepareStatement("Update into dropbox (location=?,point=?) where id=?");
+                    .prepareStatement("Update dropbox set location = ?, point = ? where id = ?");
             statement.setString(1, dropbox.getLocation());
-            statement.setString(2, dropbox.getId());
-            statement.setString(3, dropbox.getPoint());
+            statement.setString(2, dropbox.getPoint());
+            statement.setString(3, dropbox.getId());
 
             result = statement.executeUpdate();
         } catch (SQLException e) {
@@ -46,11 +67,8 @@ public class DropboxDao {
     public int delete(Dropbox dropbox) {
         int result = -1;
         try (Connection connection = MySqlConnection.getInstance().getConnection();) {
-            PreparedStatement statement = connection.prepareStatement("delete from dropbox where id=?");
+            PreparedStatement statement = connection.prepareStatement("delete from dropbox where id = ?");
             statement.setString(1, dropbox.getId());
-            statement.setString(2, dropbox.getLocation());
-            statement.setString(3, dropbox.getPoint());
-
             result = statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -58,24 +76,27 @@ public class DropboxDao {
         return result;
     }
 
-    public List<Dropbox> findAll() {
-        List<Dropbox> list = new ArrayList<>();
-        try (Connection connection = MySqlConnection.getInstance().getConnection();
-                Statement statement = connection.createStatement();) {
-            try (ResultSet resultSet = statement.executeQuery("select * from dropbox");) {
-                while (resultSet.next()) {
-                    Dropbox dropbox = new Dropbox();
-                    dropbox.setId(resultSet.getString("id"));
-                    dropbox.setLocation(resultSet.getString("nama"));
-                    dropbox.setPoint(resultSet.getString("point"));
-                    list.add(dropbox);
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
+    public Dropbox findByLocation(String location) {
+        Dropbox dropbox = null;
+        try {
+            ResultSet resultSet = getResultSetNama(location);
+            while (resultSet.next()) {
+                dropbox = new Dropbox();
+                dropbox.setId(resultSet.getString("id"));
+                dropbox.setLocation(resultSet.getString("location"));
+                dropbox.setPoint(resultSet.getString("location"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
-        return list;
+        return dropbox;
+    }
+    private static ResultSet getResultSetNama(String nama) throws SQLException {
+        Connection connection = MySqlConnection.getInstance().getConnection();
+        String query = "select * from dropbox where location = ?";
+        PreparedStatement preparedStatement = connection.prepareStatement(query);
+        preparedStatement.setString(1, nama);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        return resultSet;
     }
 }

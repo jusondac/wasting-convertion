@@ -1,88 +1,126 @@
 package Waste;
 
-import java.lang.reflect.Waste;
+import javax.swing.*;
+import java.util.List;
 import java.util.Objects;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
+import Category.Categories;
+import Dropbox.Dropbox;
 
-public class WasteFrame {
-    this.wasteList=wasteDao.findAll();this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+import dao.CategoriesDao;
+import dao.DropboxDao;
+import dao.WasteDao;
 
-    this.wasteDao=wasteDao;this.jenisWasteDao=jenisWasteDao;
+public class WasteFrame extends JFrame {
+    private List<Categories> categoriesList;
+    private List<Dropbox> dropboxList;
+    private List<Waste> wasteList;
 
-    JLabel labelInput = new JLabel("Nama: ");labelInput.setBounds(15,40,350,10);
+    private WasteTableModel tableModel;
 
-    textFieldNama=new JTextField();textFieldNama.setBounds(15,60,350,30);
+    private JComboBox comboDropbox;
+    private JComboBox comboCategories;
 
-    JLabel labelJenis = new JLabel("Jenis Waste: ");labelJenis.setBounds(15,100,350,10);
+    private WasteDao wasteDao;
+    private CategoriesDao categoriesDao;
+    private DropboxDao dropboxDao;
+    private JTable table;
 
-    comboJenis=new JComboBox();comboJenis.setBounds(15,120,150,30);
+    public WasteFrame(WasteDao wasteDao, CategoriesDao CategoriesDao, DropboxDao dropboxDao)  {
+        this.wasteList = wasteDao.findAll();
+        this.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    JButton button = new JButton("Simpan");button.setBounds(15,160,100,40);
+        this.wasteDao = wasteDao;
+        this.dropboxDao = dropboxDao;
+        this.categoriesDao = CategoriesDao;
 
-    JButton buttonHapus = new JButton("Hapus");buttonHapus.setBounds(115,160,100,40);
+        JLabel labelInput = new JLabel("Lokasi : ");
+        labelInput.setBounds(15, 40, 350, 10);
 
-    JButton buttonEdit = new JButton("Edit");buttonEdit.setBounds(215,160,100,40);
+        JLabel labelJenis = new JLabel("Kategori: ");
+        labelJenis.setBounds(15,100,350,10);
 
-    this.table=new JTable();
-    JScrollPane scrollableTale = new JScrollPane(table);scrollableTale.setBounds(15,220,350,200);
+        comboDropbox = new JComboBox();
+        comboDropbox.setBounds(15, 60,150, 30);
 
-    tableModel=new WasteTableModel(wasteList);table.setModel(tableModel);
+        comboCategories = new JComboBox();
+        comboCategories.setBounds(15, 120,150, 30);
 
-    WasteButtonSimpanActionListener actionListener = new WasteButtonSimpanActionListener(this, wasteDao);
-    WasteButtonHapusActionListener actionListenerHapus = new WasteButtonHapusActionListener(this, wasteDao);
-    WasteButtonEditActionListener actionListenerEdit = new WasteButtonEditActionListener(this, wasteDao);this.wasteList);button.addActionListener(actionListener);buttonHapus.addActionListener((ActionListener)actionListenerHapus);buttonEdit.addActionListener(actionListenerEdit);
+        JButton button = new JButton("Simpan");
+        button.setBounds(15,160,100,40);
 
-    this.add(button);this.add(buttonHapus);this.add(buttonEdit);this.add(textFieldNama);this.add(labelInput);this.add(labelJenis);this.add(comboJenis);this.add(scrollableTale);
+        JButton buttonHapus = new JButton("Hapus");
+        buttonHapus.setBounds(115,160,100,40);
 
-    this.setSize(400,500);this.setLayout(null);
+        JButton buttonEdit = new JButton("Edit");
+        buttonEdit.setBounds(215,160,100,40);
+
+        this.table = new JTable();
+        JScrollPane scrollableTale = new JScrollPane(table);
+        scrollableTale.setBounds(15,220,350,200);
+
+        tableModel = new WasteTableModel(wasteList);
+        table.setModel(tableModel);
+
+        WasteButtonSimpanActionListener actionListener = new WasteButtonSimpanActionListener(this, wasteDao);
+        WasteButtonHapusActionListener actionListenerHapus = new WasteButtonHapusActionListener(this, wasteDao);
+//        WasteButtonEditActionListener actionListenerEdit = new WasteButtonEditActionListener(this, wasteDao,  this.wasteList);
+        button.addActionListener(actionListener);
+        buttonHapus.addActionListener(actionListenerHapus);
+//        buttonEdit.addActionListener(actionListenerEdit);
+
+        this.add(button);
+        this.add(buttonHapus);
+        this.add(buttonEdit);
+        this.add(labelInput);
+        this.add(labelJenis);
+        this.add(scrollableTale);
+        this.add(comboCategories);
+        this.add(comboDropbox);
+
+        this.setSize(400,500);
+        this.setLayout(null);
     }
 
-    public boolean isEmptyField() {
-        return Objects.equals(this.textFieldNama.getText(), "");
-    }
-
-    public void populateComboJenis() {
-        this.jenisWasteList = this.jenisWasteDao.findAll();
-        comboJenis.removeAllItems();
-        for(JenisWaste jenisWaste : this.jenisWasteList) {
-            comboJenis.addItem(jenisWaste.getNama());
+    public void populateComboDropbox() {
+        this.dropboxList = this.dropboxDao.findAll();
+        comboDropbox.removeAllItems();
+        for(Dropbox dropbox : this.dropboxList) {
+            comboDropbox.addItem(dropbox.getLocation());
         }
     }
 
-    public String getNama() {return textFieldNama.getText();}
+    public void populateComboCategory() {
+        this.categoriesList = this.categoriesDao.findAll();
+        comboCategories.removeAllItems();
+        for(Categories category : this.categoriesList) {
+            comboCategories.addItem(category.getNama());
+        }
+    }
 
-    public void setTextFieldNama(String nama) {this.textFieldNama.setText(nama);}
-
+    public static void main(String[] args) {
+            javax.swing.SwingUtilities.invokeLater(new Runnable() {
+                WasteDao wasteDao = new WasteDao();
+                CategoriesDao categoriesDao = new CategoriesDao();
+                DropboxDao dropboxDao = new DropboxDao();
+                public void run() {
+                    WasteFrame runnable = new WasteFrame(wasteDao, categoriesDao, dropboxDao);
+                    runnable.populateComboCategory();
+                    runnable.populateComboDropbox();
+                    runnable.setVisible(true);
+                }
+            });
+    }
     public JTable getTable() { return table; }
-
-    public JenisWaste getJenisWaste() {
-        return jenisWasteList.get(comboJenis.getSelectedIndex());
-    }
-
-    public void showAlert(String message) {
-        JOptionPane.showMessageDialog(this, message);
-    }
+    public Categories getCategory() { return categoriesList.get(comboCategories.getSelectedIndex()); }
+    public Dropbox getDropbox() { return dropboxList.get(comboDropbox.getSelectedIndex()); }
 
     public void removeData(int selected) {
-//        this.wasteList.remove(selected);
         this.tableModel.remove(selected);
     }
 
     public void addWaste(Waste waste) {
         tableModel.add(waste);
-        textFieldNama.setText("");
     }
 
-    public void updateWaste(Waste update, int selected) {
-        this.tableModel.update(update, selected);
-    }
-
-    public Category getCategory() {
-        return null;
-    }
 }

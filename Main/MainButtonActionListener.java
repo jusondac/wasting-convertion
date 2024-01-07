@@ -1,4 +1,4 @@
-package main;
+package Main;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +12,12 @@ public class MainButtonActionListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == mainFrame.getButtonJenisMember()) {
-            mainFrame.showJenisMemberFrame();
+        if (e.getSource() == mainFrame.getButtonCategory()) {
+            mainFrame.showCategoryFrame();
+        } else if (e.getSource() == mainFrame.getButtonDropbox()) {
+            mainFrame.showDropboxFrame();
         } else {
-            mainFrame.showMemberFrame();
+            mainFrame.showWasteFrame();
         }
     }
 }

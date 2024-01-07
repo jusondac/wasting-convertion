@@ -1,9 +1,9 @@
-package main;
+package Main;
 import dao.*;
 
-import Category.Categories;
-import Waste.Waste;
-import Dropbox.Dropbox;
+ import Category.Categories;
+ import Waste.Waste;
+ import Dropbox.Dropbox;
 
 import Category.CategoriesFrame;
 import Dropbox.DropboxFrame;
@@ -11,8 +11,12 @@ import Waste.WasteFrame;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class MainFrame extends JFrame {
+
+
     private CategoriesFrame categoriesFrame;
     private DropboxFrame dropboxFrame;
     private WasteFrame wasteFrame;
@@ -26,17 +30,20 @@ public class MainFrame extends JFrame {
     private DropboxDao dropboxDao;
 
     public MainFrame() {
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JFrame jframe = this;
+        this.addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent we) {
+                int result = JOptionPane.showConfirmDialog(jframe, "Do you want to Exit ?", "Exit Confirmation : ", JOptionPane.YES_NO_OPTION);
+                if (result == JOptionPane.YES_OPTION) jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                else if (result == JOptionPane.NO_OPTION) jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+            }
+        });
+//        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(400,500);
 
         this.categoriesDao = new CategoriesDao();
         this.dropboxDao = new DropboxDao();
         this.wasteDao = new WasteDao();
-
-        this.categoriesFrame = new CategoriesFrame(categoriesDao);
-        // this.memberFrame = new MemberFrame(memberDao, jenisMemberDao);
-        this.dropboxFrame = new DropboxFrame(dropboxDao);
-        this.wasteFrame = new WasteFrame(wasteDao, categoriesDao, dropboxDao);
 
         this.setLayout(new FlowLayout());
         MainButtonActionListener actionListener = new MainButtonActionListener(this);
@@ -60,32 +67,26 @@ public class MainFrame extends JFrame {
 
     public void showCategoryFrame() {
         if(categoriesFrame == null) {
-            categoriesFrame = new CategoriesFrame(categoriesDao);
+             categoriesFrame = new CategoriesFrame(categoriesDao);
         }
         categoriesFrame.setVisible(true);
     }
 
     public void showWasteFrame() {
         if(wasteFrame == null) {
-            wasteFrame = new WasteFrame(wasteDao);
+             wasteFrame = new WasteFrame(wasteDao, categoriesDao, dropboxDao);
         }
+        wasteFrame.populateComboDropbox();
+        wasteFrame.populateComboCategory();
         wasteFrame.setVisible(true);
     }
 
     public void showDropboxFrame() {
         if(dropboxFrame == null) {
-            dropboxFrame = new DropboxFrame(dropboxDao);
+             dropboxFrame = new DropboxFrame(dropboxDao);
         }
         dropboxFrame.setVisible(true);
     }
-
-    // public void showMemberFrame() {
-    //     if(memberFrame == null) {
-    //         memberFrame = new MemberFrame(memberDao, jenisMemberDao);
-    //     }
-    //     memberFrame.populateComboJenis();
-    //     memberFrame.setVisible(true);
-    // }
 
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {

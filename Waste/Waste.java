@@ -1,11 +1,11 @@
 package Waste;
 import Category.Categories;
-import dropbox.Dropbox;
+import Dropbox.Dropbox;
  
 public class Waste {
     // Deklarasi variabel-variabel yang akan menyimpan data biodata
     private String id;
-    private Dropbox  dropbox;
+    private Dropbox dropbox;
     private Categories category;
 
     // Setter untuk mengatur nilai variabel id

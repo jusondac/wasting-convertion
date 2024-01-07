@@ -12,12 +12,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+
+import Waste.WasteFrame;
 import dao.CategoriesDao;
+import dao.DropboxDao;
+import dao.WasteDao;
 
 import javax.swing.table.AbstractTableModel;
 
 public class CategoriesFrame extends JFrame{
-
         
     // Variabel-variabel untuk menyimpan objek BiodataDao, komponen GUI, model tabel, dan data biodata
     private CategoriesDao categoriesDao;
@@ -29,17 +32,8 @@ public class CategoriesFrame extends JFrame{
     private JButton buttonsimpan,  buttonhapus, buttonedit;
 
     // Konstruktor kelas BiodataFrame
-    public CategoriesFrame() {
+    public CategoriesFrame(CategoriesDao categoriesDao) {
         JFrame jframe = this;
-        
-        // Menambahkan window listener untuk menangani event saat jendela ditutup
-        this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent we) {
-                int result = JOptionPane.showConfirmDialog(jframe, "Do you want to Exit ?", "Exit Confirmation : ", JOptionPane.YES_NO_OPTION);
-                if (result == JOptionPane.YES_OPTION) jframe.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                else if (result == JOptionPane.NO_OPTION) jframe.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-            }
-        });
         
         // Mengambil data biodata dari database dan menampilkannya pada konsol
         this.categoriesList = CategoriesDao.findAll();
@@ -50,26 +44,20 @@ public class CategoriesFrame extends JFrame{
         // Menginisialisasi objek BiodataDao
         this.categoriesDao = new CategoriesDao();
 
-        // Menginisialisasi komponen GUI
-        // comboJenis = new JComboBox();
-        // comboJenis.setBounds(15, 180,300, 30);
-        // comboJenis.addItem("Laki-laki");
-        // comboJenis.addItem("Perempuan");
 
         labelnama = new JLabel("Nama :");labelnama.setBounds(15,40,350,15);
         labelpoint = new JLabel("Point :");labelpoint.setBounds(15,100,350,15);
 
-
         textnama = new JTextField();textnama.setBounds(15,60,300,30);
         textpoint = new JTextField();textpoint.setBounds(15,120,300,30);
 
-        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,310,100,40);
-        buttonedit = new JButton("Edit");buttonedit.setBounds(115,310,80,40);
-        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,310,80,40);
+        buttonsimpan = new JButton("Simpan");buttonsimpan.setBounds(15,160,100,40);
+        buttonedit = new JButton("Edit");buttonedit.setBounds(115,160,80,40);
+        buttonhapus = new JButton("Hapus");buttonhapus.setBounds(195,160,80,40);
 
         this.table = new JTable();
         JScrollPane scrollableTable = new JScrollPane(table);
-        scrollableTable.setBounds(15,360,300,200);
+        scrollableTable.setBounds(15,210,300,200);
         tableModel = new CategoriesTableModel(categoriesList);
         table.setModel(tableModel);
 
@@ -93,22 +81,23 @@ public class CategoriesFrame extends JFrame{
         this.add(scrollableTable);
 
         // Mengatur ukuran dan layout frame
-        this.setSize(330,650);
+        this.setSize(330,470);
         this.setLayout(null);
     }
-    
+
     // Metode utama untuk menjalankan aplikasi
     public static void main(String[] args) {
         javax.swing.SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() { new CategoriesFrame().setVisible(true); }
+            CategoriesDao categoriesDao = new CategoriesDao();
+            public void run() {
+                CategoriesFrame runnable = new CategoriesFrame(categoriesDao);
+                runnable.setVisible(true);
+            }
         });
     }
 
     // Metode getter untuk mendapatkan objek tabel
-    public JTable getTable() {
-        return table;
-    }
+    public JTable getTable() { return table; }
 
     // Metode getter untuk mendapatkan nilai Nama dari form
     public String getName() { return textnama.getText(); }
@@ -123,9 +112,7 @@ public class CategoriesFrame extends JFrame{
     public void setTextpoint(String textpoint) { this.textpoint.setText(textpoint); }
 
     // Metode untuk menghapus data pada tabel
-    public void removeData(int selected) {
-        this.tableModel.remove(selected);
-    }
+    public void removeData(int selected) { this.tableModel.remove(selected); }
 
     // Metode untuk menambahkan data biodata pada tabel
     public void addCategories(Categories categories) {

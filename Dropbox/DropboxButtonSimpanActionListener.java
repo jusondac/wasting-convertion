@@ -5,8 +5,6 @@ import java.util.UUID;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import Dropbox.Dropbox;
-import Dropbox.DropboxFrame;
 import dao.DropboxDao;
 
 public class DropboxButtonSimpanActionListener implements ActionListener {
@@ -24,9 +22,8 @@ public class DropboxButtonSimpanActionListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         // Mengambil nilai dari form biodata
-        String location = this.DropboxFrame.getLocation();
-        String point = this.DropboxFrame.getPoint();
-        
+        String location = this.DropboxFrame.getDropboxLocation();
+
         // Memeriksa apakah location kosong
         if (location.isEmpty()) {
             this.DropboxFrame.showAlert("Text field tidak boleh Kosong");
@@ -35,8 +32,7 @@ public class DropboxButtonSimpanActionListener implements ActionListener {
             Dropbox Dropbox = new Dropbox();
             Dropbox.setId(UUID.randomUUID().toString());
             Dropbox.setLocation(location);
-            Dropbox.setPoint(point);
-
+            Dropbox.setPoint("0");
 
             // Menambahkan biodata ke tabel dan database
             this.DropboxFrame.addDropbox(Dropbox);
