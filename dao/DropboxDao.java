@@ -5,9 +5,7 @@ import db.MySqlConnection;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import dropbox.Dropbox;
-
-
+import Dropbox.Dropbox;
 
 public class DropboxDao {
     public int insert(Dropbox dropbox) {
@@ -30,10 +28,10 @@ public class DropboxDao {
         List<Dropbox> listkonversi = new ArrayList<Dropbox>();
         try (Connection connection = MySqlConnection.getInstance().getConnection();
              Statement statement = connection.createStatement();) {
-            try (ResultSet resultSet = statement.executeQuery("SELECT db.id, db.location, SUM(k.point) AS total_point\n" +
-                    "FROM dropbox db\n" +
-                    "JOIN wastes w ON db.id = w.dropbox_id\n" +
-                    "JOIN categories k ON w.category_id = k.id\n" +
+                try (ResultSet resultSet = statement.executeQuery("SELECT db.id, db.location, SUM(k.point) AS total_point\n" +
+                        "FROM dropbox db\n" +
+                        "JOIN wastes w ON db.id = w.dropbox_id\n" +
+                        "JOIN categories k ON w.category_id = k.id\n" +
                     "GROUP BY db.location\n");) {
                 while (resultSet.next()) {
                     Dropbox dropbox = new Dropbox();

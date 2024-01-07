@@ -62,7 +62,7 @@ public class CategoriesDao {
                 while (resultSet.next()) {
                     Categories categories = new Categories();
                     categories.setId(resultSet.getString("id"));
-                    categories.setNama(resultSet.getString("nama"));
+                    categories.setNama(resultSet.getString("name"));
                     categories.setPoint(resultSet.getString("point"));
                     list.add(categories);
                 }
