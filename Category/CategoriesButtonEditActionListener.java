@@ -27,30 +27,39 @@ public class CategoriesButtonEditActionListener implements ActionListener  {
     public void actionPerformed(ActionEvent e) {
         JTable table = this.categoriesFrame.getTable();
         int selected = table.getSelectedRow();
-        
-        // Mendapatkan nilai dari tabel untuk categories yang dipilih
-        String name = (String) table.getValueAt(selected, 0);
-        String point = (String) table.getValueAt(selected, 1);
-        
-        // Jika ada isian kosong pada form, mengisi form dengan data categories yang dipilih
-        if (this.categoriesFrame.isEmptyField()) {
-            this.categoriesFrame.setTextnama(name);
-            this.categoriesFrame.setTextpoint(point);
+        if (selected == -1) {
+            this.categoriesFrame.showAlert("Pilih data yang ingin diedit");
         } else {
-            // Jika form tidak kosong, membuat objek categories baru untuk diupdate
-            Categories updateCategories = new Categories();
-            Categories categories = categoriesList.get(selected);
-            updateCategories.setId(categories.getId());
-            updateCategories.setNama(this.categoriesFrame.getName());
-            updateCategories.setPoint(this.categoriesFrame.getPoint());
-            
-            // Melakukan update data menggunakan categoriesDao
-            this.categoriesDao.update(updateCategories);
-            
-            // Mengupdate data pada tabel dan membersihkan isian form
-            this.categoriesFrame.updateCategories(updateCategories, selected);
-            this.categoriesFrame.setTextnama("");
-            this.categoriesFrame.setTextpoint("");
+            // Mendapatkan nilai dari tabel untuk categories yang dipilih
+            String name = (String) table.getValueAt(selected, 0);
+            String point = (String) table.getValueAt(selected, 1);
+
+            // Jika ada isian kosong pada form, mengisi form dengan data categories yang dipilih
+            if (this.categoriesFrame.isEmptyField()) {
+                this.categoriesFrame.setTextnama(name);
+                this.categoriesFrame.setTextpoint(point);
+            } else {
+                // Jika form tidak kosong, membuat objek categories baru untuk diupdate
+                Categories updateCategories = new Categories();
+                Categories categories = categoriesList.get(selected);
+                updateCategories.setId(categories.getId());
+                if (this.categoriesFrame.getName().isEmpty()) {
+                    this.categoriesFrame.showAlert("Nama Kategori tidak boleh Kosong");
+                } else if (this.categoriesFrame.getPoint().isEmpty()) {
+                    this.categoriesFrame.showAlert("Poin tidak boleh Kosong");
+                } else {
+                    updateCategories.setNama(this.categoriesFrame.getName());
+                    updateCategories.setPoint(this.categoriesFrame.getPoint());
+
+                    // Melakukan update data menggunakan categoriesDao
+                    this.categoriesDao.update(updateCategories);
+
+                    // Mengupdate data pada tabel dan membersihkan isian form
+                    this.categoriesFrame.updateCategories(updateCategories, selected);
+                    this.categoriesFrame.setTextnama("");
+                    this.categoriesFrame.setTextpoint("");
+                }
+            }
         }
     }
 }
