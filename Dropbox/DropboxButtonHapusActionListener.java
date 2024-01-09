@@ -23,14 +23,17 @@ public class DropboxButtonHapusActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JTable table = this.dropboxFrame.getTable();
         int selected = table.getSelectedRow();
-
-        // Mendapatkan nilai Nama dari biodata yang dipilih
-        String location = (String) table.getValueAt(selected, 0);
-        // Mencari biodata berdasarkan nama
-        Dropbox dropbox = this.dropboxDao.findByLocation(location);
-        System.out.println(dropbox);
-        // Menghapus data pada tabel dan database
-        this.dropboxFrame.removeData(selected);
-        this.dropboxDao.delete(dropbox);
+        if( selected == -1 ) {
+            this.dropboxFrame.showAlert("Pilih data yang ingin dihapus");
+        } else {
+            // Mendapatkan nilai Nama dari biodata yang dipilih
+            String location = (String) table.getValueAt(selected, 0);
+            // Mencari biodata berdasarkan nama
+            Dropbox dropbox = this.dropboxDao.findByLocation(location);
+            System.out.println(dropbox);
+            // Menghapus data pada tabel dan database
+            this.dropboxFrame.removeData(selected);
+            this.dropboxDao.delete(dropbox);
+        }
     }
 }

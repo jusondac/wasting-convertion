@@ -27,7 +27,9 @@ public class CategoriesButtonSimpanActionListener implements ActionListener{
         
         // Memeriksa apakah nama kosong
         if (nama.isEmpty()) {
-            this.categoriesFrame.showAlert("Text field tidak boleh Kosong");
+            this.categoriesFrame.showAlert("Nama Kategori tidak boleh Kosong");
+        } else if (point.isEmpty()) {
+            this.categoriesFrame.showAlert("Poin tidak boleh Kosong");
         } else {
             // Jika nama tidak kosong, membuat objek Biodata baru
             Categories categories = new Categories();

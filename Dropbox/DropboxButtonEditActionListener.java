@@ -31,29 +31,34 @@ public class DropboxButtonEditActionListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         JTable table = this.dropboxFrame.getTable();
         int selected = table.getSelectedRow();
-
-        // Mendapatkan nilai dari tabel untuk Dropbox yang dipilih
-        String location = (String) table.getValueAt(selected, 0);
-        String point = (String) table.getValueAt(selected, 1);
-
-        // Jika ada isian kosong pada form, mengisi form dengan data Dropbox yang
-        // dipilih
-        if (this.dropboxFrame.isEmptyField()) {
-            this.dropboxFrame.setTextlocation(location);
-
+        if (selected == -1 ) {
+            this.dropboxFrame.showAlert("Pilih data yang ingin diedit");
         } else {
-            // Jika form tidak kosong, membuat objek Dropbox baru untuk diupdate
-            Dropbox updateDropbox = new Dropbox();
-            Dropbox dropbox = dropboxList.get(selected);
-            updateDropbox.setId(dropbox.getId());
-            updateDropbox.setLocation(this.dropboxFrame.getDropboxLocation());
+            // Mendapatkan nilai dari tabel untuk Dropbox yang dipilih
+            String location = (String) table.getValueAt(selected, 0);
 
-            // Melakukan update data menggunakan DropboxDao
-            this.dropboxDao.update(updateDropbox);
+            // Jika ada isian kosong pada form, mengisi form dengan data Dropbox yang
+            // dipilih
+            if (this.dropboxFrame.isEmptyField()) {
+                this.dropboxFrame.setTextlocation(location);
+            } else {
+                // Jika form tidak kosong, membuat objek Dropbox baru untuk diupdate
+                Dropbox updateDropbox = new Dropbox();
+                Dropbox dropbox = dropboxList.get(selected);
+                if (this.dropboxFrame.getDropboxLocation().isEmpty()) {
+                    this.dropboxFrame.showAlert("Nama Lokasi tidak boleh kosong");
+                } else {
+                    updateDropbox.setId(dropbox.getId());
+                    updateDropbox.setLocation(this.dropboxFrame.getDropboxLocation());
 
-            // Mengupdate data pada tabel dan membersihkan isian form
-            this.dropboxFrame.updateDropbox(updateDropbox, selected);
-            this.dropboxFrame.setTextlocation("");
+                    // Melakukan update data menggunakan DropboxDao
+                    this.dropboxDao.update(updateDropbox);
+
+                    // Mengupdate data pada tabel dan membersihkan isian form
+                    this.dropboxFrame.updateDropbox(updateDropbox, selected);
+                    this.dropboxFrame.setTextlocation("");
+                }
+            }
         }
     }
 

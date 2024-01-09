@@ -4,12 +4,14 @@
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MySQL Connection"/>
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<queryString>
-		<![CDATA[select db.location, c.name, c.point
+		<![CDATA[select db.location, c.name, c.point,
+SUM(db.point) OVER (PARTITION BY db.location)
+AS total_point
 from wastes w 
 join dropbox db 
 on db.id = w.dropbox_id 
 join categories c on w.category_id = c.id 
-ORDER BY db.location, c.name]]>
+order by db.location, c.name]]>
 	</queryString>
 	<field name="location" class="java.lang.String">
 		<property name="com.jaspersoft.studio.field.name" value="location"/>
@@ -25,6 +27,10 @@ ORDER BY db.location, c.name]]>
 		<property name="com.jaspersoft.studio.field.name" value="point"/>
 		<property name="com.jaspersoft.studio.field.label" value="point"/>
 		<property name="com.jaspersoft.studio.field.tree.path" value="categories"/>
+	</field>
+	<field name="total_point" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.name" value="total_point"/>
+		<property name="com.jaspersoft.studio.field.label" value="total_point"/>
 	</field>
 	<variable name="location1" class="java.lang.Integer" resetType="Page" calculation="Count">
 		<variableExpression><![CDATA[$F{location}]]></variableExpression>
@@ -77,7 +83,7 @@ ORDER BY db.location, c.name]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Kategori]]></text>
 			</staticText>
@@ -94,7 +100,7 @@ ORDER BY db.location, c.name]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Poin]]></text>
 			</staticText>
@@ -111,7 +117,7 @@ ORDER BY db.location, c.name]]>
 					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
 				</box>
 				<textElement textAlignment="Center" verticalAlignment="Middle">
-					<font isBold="true"/>
+					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lokasi]]></text>
 			</staticText>
@@ -161,7 +167,34 @@ ORDER BY db.location, c.name]]>
 		</band>
 	</detail>
 	<columnFooter>
-		<band height="31" splitType="Stretch"/>
+		<band height="40" splitType="Stretch">
+			<staticText>
+				<reportElement x="20" y="0" width="160" height="30" uuid="b38b4696-5fa3-4a93-ad01-8accb2109a6a"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total Point         =]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="360" y="0" width="180" height="30" uuid="51b04421-e5ce-48b6-857a-19a9565afbd5"/>
+				<box>
+					<topPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="1.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{total_point}]]></textFieldExpression>
+			</textField>
+		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="54" splitType="Stretch"/>
